@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de senhas</title>
+    <style>
+        .options{
+
+            align-items: left;
+        }
+    </style>
+</head>
+<body>
+    <h2>Password Generator</h2>
+
+    <form onsubmit="GeneratePassword(event)">
+        <div class="options">
+            Characters Lenght <input type="range" min="1" max="15" name="lenght" id="lenght"><br>
+
+            <output name="lenght_output" for="lenght"></output>
+
+            <input type="checkbox" name="uppercase" id="uppercase" class="option" onclick="select(this)"> Uppercase Characters<br>
+            <input type="checkbox" name="lowercase" id="lowercase" class="option" onclick="select(this)"> Lowercase Characters<br>
+            <input type="checkbox" name="numbers" id="numbers" class="option" onclick="select(this)"> Numnbers<br>
+            <input type="checkbox" name="symbols" id="symbols" class="option" onclick="select(this)"> Symbols<br>
+            <input type="checkbox" name="whitespace" id="whitespace" class="option" onclick="select(this)">Whitespaces<br><br>
+        </div>
+
+        <input type="submit" value="Generate">
+    </form><br>
+
+    RESULT <input type="text" name="output" id="output">
+
+    <script>
+        function shuffleString(string){
+            var newArr = string.split('');
+
+            for(let i = 0; i <= string.length; i++){
+                let randPos = Math.floor(Math.random() * string.length);
+                
+                let temp = newArr[randPos];
+                newArr[randPos] = newArr[i];
+                newArr[i] = temp;
+            }
+
+            return newArr.join('');  
+        }
+
+        function GeneratePassword(){
+            event.preventDefault()
+
+            var output = document.querySelector('#output');
+            var options = {}
+            var characters = '';
+            var lenght = document.querySelector('#lenght').value;
+            var password = '';
+
+
+            document.querySelectorAll('.option').forEach(option => {
+                console.log(option);
+                let name = option.id;
+
+                options[name] = option.checked;
+            })
+
+            if(options['uppercase']){
+                characters += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+            }
+            if(options['lowercase']){
+                characters += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+            }
+            if(options['numbers']){
+                characters += '1234567890'
+            }
+            if(options['symbols']){
+                characters += '!@#$%&*^~'
+            }
+            if(options['whitespace']){
+                characters += ' '
+            }
+
+            characters = shuffleString(characters);
+
+            for(let i = lenght; i > 0; i--){
+                password += characters[Math.floor(Math.random() * lenght)];
+            }
+
+            output.value = password;
+        }
+    </script>
+</body>
+</html>
