@@ -1,0 +1,2 @@
+# Practices
+Daily Javascript Trainings
